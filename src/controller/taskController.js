@@ -15,7 +15,18 @@ async function listTasks(req, res){
     }
 }
 
+async function createTask(req, res) {
+    try{
+        const data = req.body();
+        const task = await prisma.task.create(data);
+        res.status(201).json(task);
+    }catch (error) {
+        res.status(200).send();
+    }
+}
+
 
 module.exports = {
     listTasks,
+    createTask
 }
