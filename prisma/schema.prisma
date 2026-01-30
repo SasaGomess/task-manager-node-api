@@ -1,0 +1,32 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Task {
+  id Int @id @default(autoincrement())
+  title String 
+  description String?
+  status Status @default(A_FAZER)
+  priority Priority
+  creationDate DateTime @map("creation_date") @default(now()) 
+  startDate DateTime @map("start_date")
+  endDate DateTime @map("end_date")
+
+  @@map("tasks")
+}
+
+enum Status {
+  A_FAZER
+  EM_ANDAMENTO
+  CONCLUIDA
+}
+
+enum Priority {
+  BAIXA
+  MEDIA
+  ALTA
+}
