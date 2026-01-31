@@ -18,6 +18,22 @@ async function listTasks(req, res){
     }
 }
 
+async function findATask(req, res) {
+    try{
+        const id = parseInt(req.body.id);
+
+        const task = await prisma.task.findUnique({where: {id}});
+
+        if(!task){
+            res.status(404).send("Tarefa não encontrada");
+        }
+
+        res.status(200).json(task);
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+}
+
 async function createTask(req, res) {
     try{
         const data = req.body;
@@ -89,12 +105,11 @@ async function deleteATask(req, res) {
     }
 }
 
-
-
 module.exports = {
     listTasks,
     createTask,
     startsATask,
     concludesATask,
-    deleteATask
+    deleteATask,
+    findATask
 }
