@@ -75,12 +75,26 @@ async function concludesATask(req, res) {
     }catch (error){
         res.status(500).send(error.message)
     }
-    
 }
+
+async function deleteATask(req, res) {
+    try{
+        const id = parseInt(req.params.id);
+        await prisma.task.delete({where: {id}});
+
+        res.status(204).send();
+
+    }catch (error){
+        res.status(500).send(error.message)
+    }
+}
+
+
 
 module.exports = {
     listTasks,
     createTask,
     startsATask,
-    concludesATask
+    concludesATask,
+    deleteATask
 }
