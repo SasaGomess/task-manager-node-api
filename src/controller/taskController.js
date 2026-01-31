@@ -20,7 +20,7 @@ async function listTasks(req, res){
 
 async function findATask(req, res) {
     try{
-        const id = parseInt(req.body.id);
+        const id = parseInt(req.params.id);
 
         const task = await prisma.task.findUnique({where: {id}});
 
@@ -69,6 +69,28 @@ async function startsATask(req, res) {
     
 }
 
+async function updateATask(req, res) {
+    try{
+        const id = parseInt(req.params.id);
+        const task = await prisma.task.findUnique({where: {id}});
+        const data = req.body;
+
+        if(!task){
+            res.status(404).send("Tarefa não encontrada");
+        }
+
+        const updatedTask = await prisma.task.update({
+            where: {id: task.id},
+            data: data
+        })
+
+        res.status(200).json(updatedTask);
+
+    }catch (error){
+        res.status(500).send(error.message)
+    }
+}
+
 
 async function concludesATask(req, res) {
     try{
@@ -111,5 +133,6 @@ module.exports = {
     startsATask,
     concludesATask,
     deleteATask,
-    findATask
+    findATask, 
+    updateATask
 }
