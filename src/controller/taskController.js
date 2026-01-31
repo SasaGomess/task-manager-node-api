@@ -28,18 +28,35 @@ async function createTask(req, res) {
     }
 }
 
-// async function updateTask(req, res) {
-//     try{
-//         const id = req.
-//     }catch (error) {
+async function startsATask(req, res) {
+    try{
+        const id = req.params.id;
+        const task = await prisma.task.findUnique({ where: { id } });
 
-//     }
+        if(!task){
+            res.status(404).send("Tarefa não encontrada");
+        }
+
+        const updatedTask = prisma.task.update({
+            where: {id: task.id},
+            data: {
+                startDate: new Date(),
+                status: "EM_ANDAMENTO"
+            }
+        })
+
+        res.staus(201).json(updatedTask)
+    }catch (error) {
+        res.status(500).send(error.message);
+    }
     
-// }
+}
+
 
 
 
 module.exports = {
     listTasks,
-    createTask
+    createTask,
+    startsATask,
 }
