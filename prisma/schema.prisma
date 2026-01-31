@@ -13,7 +13,7 @@ model Task {
   status Status @default(A_FAZER)
   priority Priority
   creationDate DateTime @map("creation_date") @default(now()) 
-  startDate DateTime @map("start_date")
+  startDate DateTime? @map("start_date")
   endDate DateTime @map("end_date")
 
   @@map("tasks")
